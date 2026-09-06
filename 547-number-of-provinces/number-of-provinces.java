@@ -1,15 +1,9 @@
 class Solution {
-    public static void bfs(int i,boolean[] vis,int[][]arr){
+    public static void dfs(int i,boolean[] vis,int[][]arr){
       vis[i]=true;
-      Queue<Integer> q=new LinkedList<>();
-      q.add(i);
-      while(!q.isEmpty()){
-        int top=q.remove();
-        for(int j=0;j<arr.length;j++){
-            if(!vis[j] && arr[top][j]==1){
-                q.add(j);
-                vis[j]=true;
-            }
+      for(int j=0;j<arr.length;j++){
+        if(!vis[j] && arr[i][j]==1){
+            dfs(j,vis,arr);
         }
       }
     }
@@ -20,7 +14,7 @@ class Solution {
 
       for(int i=0;i<n;i++){
         if(!vis[i]){
-            bfs(i,vis,arr);
+            dfs(i,vis,arr);
             count++;
         }
       }
