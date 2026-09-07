@@ -14,16 +14,16 @@
  * }
  */
 class Solution {
-    public static boolean ans;
+    public static boolean flag;
     public static TreeNode prev;
 
     public static void inorder(TreeNode root){
         if(root==null) return;
+
         inorder(root.left);
-      
         if(prev==null) prev=root;
-        else if(root.val<=prev.val){
-            ans=false;
+        else if(prev.val>=root.val){
+            flag=false;
             return;
         }
         else prev=root;
@@ -32,10 +32,9 @@ class Solution {
 
     }
     public boolean isValidBST(TreeNode root) {
-        ans=true;
+        flag=true;
         prev=null;
         inorder(root);
-
-        return ans;
+        return flag;
     }
 }
