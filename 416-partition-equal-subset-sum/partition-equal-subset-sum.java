@@ -1,38 +1,27 @@
 class Solution {
-    public static boolean sol(int[]arr,int target,int i,int[][]dp){
-        if(target==0) return true;
-        if(i==arr.length){
-            if(target==0) return true;
-            else return false;
-        }
-        if(dp[i][target]!=-1) return  dp[i][target]==1;
-        boolean ans=false;
-        boolean skip=sol(arr,target,i+1,dp);
-        if(target-arr[i]<0) return ans=skip;
-        else{
-             boolean pick=sol(arr,target-arr[i],i+1,dp);
-             ans=pick||skip;
-        }
-       
-        dp[i][target]=(ans)?1:0;
+    public static boolean find(int[]arr,int i,int sum,int target,int[][]dp){
+        if(sum==target) return true;
+        if(i>=arr.length) return false;
+        if(sum>target) return false;
+        if(dp[i][sum]!=-1) return (dp[i][sum]==1);
+        boolean ans=find(arr,i+1,sum,target,dp) || find(arr,i+1,sum+arr[i],target,dp);
+        dp[i][sum]=(ans)?1:0;
         return ans;
     }
     public boolean canPartition(int[] arr) {
         int n=arr.length;
+       
         int sum=0;
+        for(int i=0;i<n;i++){
+           sum+=arr[i];
+        }
+        if(sum%2!=0) return false;
+        int total=sum/2;
+        int[][] dp=new int[n][total+1];
 
         for(int i=0;i<n;i++){
-            sum+=arr[i];
+            Arrays.fill(dp[i],-1);
         }
-        int target=sum/2;
-        int[][] dp=new int[n][target+1];
-
-        for(int[] row:dp){
-            Arrays.fill(row,-1);
-        }
-
-        if(sum%2!=0) return false;
-
-        return sol(arr,sum/2,0,dp);
+        return find(arr,0,0,sum/2,dp);
     }
 }
