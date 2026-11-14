@@ -1,12 +1,13 @@
 class Solution {
-    public static int find(int i,int [] arr,int target){
-        if(i==arr.length){
-            if(target==0) return 1;
+    public static int find(int i,int [] arr,int res,int target,int sum,int[][] dp){
+        if(i>=arr.length){
+            if(target==res) return 1;
             else return 0;
         }
-        int add=find(i+1,arr,target+arr[i]);
-        int sub=find(i+1,arr,target-arr[i]);
-        return add+sub;
+        if(dp[i][res+sum]!=-1) return dp[i][res+sum];
+        int add=find(i+1,arr,res+arr[i],target,sum,dp);
+        int sub=find(i+1,arr,res-arr[i],target,sum,dp);
+        return dp[i][res+sum]=add+sub;
     }
     public int findTargetSumWays(int[] arr, int target) {
         int n=arr.length;
@@ -16,8 +17,12 @@ class Solution {
             sum+=arr[i];
         }
 
-        int[][]dp=new int[n][2*sum];
-        return find(0,arr,target);
+        int[][]dp=new int[n][2*sum+1];
+
+        for(int i=0;i<n;i++){
+            Arrays.fill(dp[i],-1);
+        }
+        return find(0,arr,0,target,sum,dp);
 
     }
 }
