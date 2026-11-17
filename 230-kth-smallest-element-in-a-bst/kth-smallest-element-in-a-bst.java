@@ -15,22 +15,22 @@
  */
 class Solution {
     public static int count;
-    public static int ans;
+    public static int result;
     public static void inorder(TreeNode root,int k){
         if(root==null) return;
         inorder(root.left,k);
         count++;
         if(count==k){
-            ans=root.val;
-            return;
+            result=root.val;
+            return ;
         }
         inorder(root.right,k);
 
     }
     public int kthSmallest(TreeNode root, int k) {
         count=0;
-        ans=0;
+        result=-1;
         inorder(root,k);
-        return ans;
+        return result;
     }
 }
